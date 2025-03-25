@@ -20,24 +20,24 @@ app.post("/postmenu",async(req,res)=>{
   try {
     const {name,description,price} = req.body;
     if(!name || !price){
-      return res.status(404).json({msg:"Name and price are required"});
+      return res.status(404).send({msg:"Name and price are required"});
     }
     const data = await menuSchema({name,description,price});
     await data.save();
 
-    res.status(201).json({msg:"Menu item created successfully"},data);
+    res.status(201).send({msg:"Menu item created successfully",data});
     
   } catch (error) {
-    return res.status(500).json({msg:"Error creating menu items"},error);
+     res.status(500).send({msg:"Error creating menu items",error});
   }
 })
 
 app.get("/menuget",async(req,res)=>{
   try {
     const allItems = await menuSchema.find();
-    res.status(200).json(allItems);
+    res.status(200).send(allItems);
   } catch (error) {
-    return res.status(500).json({msg:"Error creating menu items"},error);
+    res.status(500).send({msg:"Error creating menu items",error});
   }
 })
 
